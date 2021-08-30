@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApplication">
-        <activity android:name=".AllTask"></activity>
+        <activity android:name=".SettingsPage"></activity>
+        <activity android:name=".DetailPage" />
+        <activity android:name=".AllTask" />
         <activity android:name=".AddTasks" />
         <activity android:name=".MainActivity">
             <intent-filter>

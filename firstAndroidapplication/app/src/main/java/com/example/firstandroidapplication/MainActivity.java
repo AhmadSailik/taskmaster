@@ -3,7 +3,9 @@ package com.example.firstandroidapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +24,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Button one=findViewById(R.id.one);
+        Button two=findViewById(R.id.two);
+        Button three=findViewById(R.id.three);
+        one.setOnClickListener((v)-> {
+            String name=one.getText().toString();
+            Intent oneTask =new Intent(MainActivity.this,DetailPage.class);
+            oneTask.putExtra("title",name);
+            startActivity(oneTask);
+        });
+        two.setOnClickListener((v)-> {
+            String name=two.getText().toString();
+            Intent oneTask =new Intent(MainActivity.this,DetailPage.class);
+            oneTask.putExtra("title",name);
+            startActivity(oneTask);
+        });
+        three.setOnClickListener((v)-> {
+            String name=three.getText().toString();
+            Intent oneTask =new Intent(MainActivity.this,DetailPage.class);
+            oneTask.putExtra("title",name);
+            startActivity(oneTask);
+        });
+
+        String welcome="welcome";
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String userName=sharedPreferences.getString("userName","User");
+        TextView textView=findViewById(R.id.users);
+        textView.setText(welcome+" "+userName);
+        Button sitting=findViewById(R.id.sitting);
+        sitting.setOnClickListener((view)->{
+            Intent sittingUser =new Intent(MainActivity.this,SettingsPage.class);
+            startActivity(sittingUser);
+        });
         Button addTask=findViewById(R.id.button);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
