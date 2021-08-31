@@ -1,5 +1,13 @@
 # taskmaster
-##Create a Task Detail page. It should have a title at the top of the page, and a Lorem Ipsum description.
+## ## lab 28
+- Create a ViewAdapter class that displays data from a list of Tasks.
+- In your MainActivity, create at least three hardcoded Task instances and use those to populate your RecyclerView/ViewAdapter.
+## screenshot
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210831-163849.jpg)
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210831-163856.jpg)
+
+## ## lab 27
+- Create a Task Detail page. It should have a title at the top of the page, and a Lorem Ipsum description.
 - Create a Settings page. It should allow users to enter their username and hit save.
 - The main page should be modified to contain three different buttons with hardcoded task titles. When a user taps one of the titles, it should go to the Task Detail page, and the title at the top of the page should match the task title that was tapped on the previous page.
 ## screenshot
