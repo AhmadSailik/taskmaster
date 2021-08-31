@@ -1,6 +1,9 @@
 package com.example.firstandroidapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +29,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        ArrayList<Task> allTasks=new ArrayList<Task>();
+        allTasks.add(new Task("jop","still research","in progress"));
+        allTasks.add(new Task("lab","add All task","complete"));
+        allTasks.add(new Task("CSS","course CSS","assigned"));
+        RecyclerView allTaskRecyclerView=findViewById(R.id.listOfButton);
+//        allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        allTaskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),3));
+        allTaskRecyclerView.setAdapter(new vickAdapter(allTasks));
+
         Button one=findViewById(R.id.one);
         Button two=findViewById(R.id.two);
         Button three=findViewById(R.id.three);

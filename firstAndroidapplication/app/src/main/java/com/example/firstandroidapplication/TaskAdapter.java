@@ -37,6 +37,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskViewHolder holder, int position) {
         holder.task=allTask.get(position);
+
         TextView titleOfTask=holder.itemView.findViewById(R.id.titleOfTask);
         TextView bodyOfTask=holder.itemView.findViewById(R.id.bodyOfTask);
         TextView stateOfTask=holder.itemView.findViewById(R.id.stateOfTask);
