@@ -3,8 +3,12 @@
 - Create a ViewAdapter class that displays data from a list of Tasks.
 - In your MainActivity, create at least three hardcoded Task instances and use those to populate your RecyclerView/ViewAdapter.
 ## screenshot
-![home page](firstAndroidapplication/app/screenshot/Screenshot_20210831-163849.jpg)
 ![all task](firstAndroidapplication/app/screenshot/Screenshot_20210831-163856.jpg)
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210901-010414.jpg)
+![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210901-014504.jpg)
+![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210901-014511.jpg)
+![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210901-014516.jpg)
+
 
 ## ## lab 27
 - Create a Task Detail page. It should have a title at the top of the page, and a Lorem Ipsum description.
