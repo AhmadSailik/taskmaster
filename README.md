@@ -1,5 +1,18 @@
 # taskmaster
-## ## lab 28
+
+## lab 29
+-  set up Room in your application, and modify your Task class to be an Entity.
+- Modify your Add Task form to save the data entered in as a Task in your local database.
+- Refactor your homepage’s RecyclerView to display all Task entities in your database.
+- 
+## screenshot
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210901-161708.jpg)
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210901-161734.jpg)
+
+![Add Detail](firstAndroidapplication/app/screenshot/Screenshot_20210901-172445.jpg)
+
+
+## lab 28
 - Create a ViewAdapter class that displays data from a list of Tasks.
 - In your MainActivity, create at least three hardcoded Task instances and use those to populate your RecyclerView/ViewAdapter.
 ## screenshot
@@ -10,7 +23,7 @@
 ![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210901-014516.jpg)
 
 
-## ## lab 27
+## lab 27
 - Create a Task Detail page. It should have a title at the top of the page, and a Lorem Ipsum description.
 - Create a Settings page. It should allow users to enter their username and hit save.
 - The main page should be modified to contain three different buttons with hardcoded task titles. When a user taps one of the titles, it should go to the Task Detail page, and the title at the top of the page should match the task title that was tapped on the previous page.

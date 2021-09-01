@@ -29,7 +29,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        Button button=findViewById(R.id.newTask);
+        button.setOnClickListener((v)->{
+            Intent oneTask =new Intent(MainActivity.this,AddTask29.class);
+            startActivity(oneTask);
+        });
         ArrayList<Task> allTasks=new ArrayList<Task>();
         allTasks.add(new Task("jop","still research","in progress"));
         allTasks.add(new Task("lab","add All task","complete"));
