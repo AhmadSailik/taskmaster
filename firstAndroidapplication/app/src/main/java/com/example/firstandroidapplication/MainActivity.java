@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,9 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    TaskDatabase taskDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
             Intent oneTask =new Intent(MainActivity.this,AddTask29.class);
             startActivity(oneTask);
         });
-        ArrayList<Task> allTasks=new ArrayList<Task>();
-        allTasks.add(new Task("jop","still research","in progress"));
-        allTasks.add(new Task("lab","add All task","complete"));
-        allTasks.add(new Task("CSS","course CSS","assigned"));
+        taskDatabase =  Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "taskDatas").allowMainThreadQueries().build();
+        List<Task> allTasks=taskDatabase.taskDao().getAll();
+//        ArrayList<Task> allTasks=new ArrayList<Task>();
+//        allTasks.add(new Task("jop","still research","in progress"));
+//        allTasks.add(new Task("lab","add All task","complete"));
+//        allTasks.add(new Task("CSS","course CSS","assigned"));
         RecyclerView allTaskRecyclerView=findViewById(R.id.listOfButton);
 //        allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         allTaskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),3));
