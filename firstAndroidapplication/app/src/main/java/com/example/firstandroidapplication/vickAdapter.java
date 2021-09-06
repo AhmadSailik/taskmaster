@@ -24,6 +24,7 @@ public class vickAdapter extends RecyclerView.Adapter<vickAdapter.TaskViewHolder
         this.allTask=allTask;
     }
 
+
     public static class TaskViewHolder extends RecyclerView.ViewHolder{
         public Task task;
         View itemView;
@@ -53,8 +54,6 @@ public class vickAdapter extends RecyclerView.Adapter<vickAdapter.TaskViewHolder
         button.setText(holder.task.title);
         button.setOnClickListener((v)-> {
             String name=button.getText().toString();
-
-
             Intent oneTask =new Intent(holder.context,DetailPage.class);
             oneTask.putExtra("title",holder.task.title);
             oneTask.putExtra("body",holder.task.body);

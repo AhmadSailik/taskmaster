@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         Button button=findViewById(R.id.newTask);
         button.setOnClickListener((v)->{
             Intent oneTask =new Intent(MainActivity.this,AddTask29.class);
@@ -101,4 +105,6 @@ public class MainActivity extends AppCompatActivity {
 //        String viewHeadind=heading.getText().toString();
 //        setContentView(R.layout.activity_main);
     }
+
+
 }
