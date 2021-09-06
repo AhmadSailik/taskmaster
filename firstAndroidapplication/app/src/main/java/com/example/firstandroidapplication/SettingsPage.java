@@ -21,8 +21,8 @@ public class SettingsPage extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Button save=findViewById(R.id.save);
+        EditText editText=findViewById(R.id.editUserName);
         save.setOnClickListener((view)->{
-            EditText editText=findViewById(R.id.editUserName);
             String userName=editText.getText().toString();
             SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(SettingsPage.this);
             SharedPreferences.Editor sharedPreferencesEditor=sharedPreferences.edit();
