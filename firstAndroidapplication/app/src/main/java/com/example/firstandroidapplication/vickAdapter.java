@@ -11,22 +11,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Todo;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class vickAdapter extends RecyclerView.Adapter<vickAdapter.TaskViewHolder> {
 
-    List<Task>allTask=new ArrayList<>();
+    List<Todo>allTask=new ArrayList<>();
 
 
 
-    public vickAdapter(List<Task>allTask){
+    public vickAdapter(List<Todo>allTask){
         this.allTask=allTask;
     }
 
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder{
-        public Task task;
+        public Todo task;
         View itemView;
         Context context;
 
@@ -51,13 +53,13 @@ public class vickAdapter extends RecyclerView.Adapter<vickAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull  vickAdapter.TaskViewHolder holder, int position) {
         holder.task=allTask.get(position);
         Button button=holder.itemView.findViewById(R.id.buttonOdetails);
-        button.setText(holder.task.title);
+        button.setText(holder.task.getTitle());
         button.setOnClickListener((v)-> {
             String name=button.getText().toString();
             Intent oneTask =new Intent(holder.context,DetailPage.class);
-            oneTask.putExtra("title",holder.task.title);
-            oneTask.putExtra("body",holder.task.body);
-            oneTask.putExtra("state",holder.task.state);
+            oneTask.putExtra("title",holder.task.getTitle());
+            oneTask.putExtra("body",holder.task.getBody());
+            oneTask.putExtra("state",holder.task.getState());
             holder.context.startActivity(oneTask);
         });
 //        TextView title=holder.itemView.findViewById(R.id.textView2);

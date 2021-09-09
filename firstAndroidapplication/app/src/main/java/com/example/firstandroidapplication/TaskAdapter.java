@@ -8,18 +8,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Todo;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
-    List<Task>allTask=new ArrayList<Task>();
-    public TaskAdapter(List<Task>allTask){
+    List<Todo>allTask=new ArrayList<Todo>();
+    public TaskAdapter(List<Todo>allTask){
 
         this.allTask=allTask;
     }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder{
-        public Task task;
+        public Todo task;
         View itemView;
 
         public TaskViewHolder(@NonNull  View itemView) {
@@ -42,9 +44,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView titleOfTask=holder.itemView.findViewById(R.id.titleOfTask);
         TextView bodyOfTask=holder.itemView.findViewById(R.id.bodyOfTask);
         TextView stateOfTask=holder.itemView.findViewById(R.id.stateOfTask);
-        titleOfTask.setText(holder.task.title);
-        bodyOfTask.setText(holder.task.body);
-        stateOfTask.setText(holder.task.state);
+        titleOfTask.setText(holder.task.getTitle());
+        bodyOfTask.setText(holder.task.getBody());
+        stateOfTask.setText(holder.task.getState());
     }
 
     @Override
