@@ -1,5 +1,22 @@
 # taskmaster
 
+## lab 32
+-  Using the amplify add api command, create a Task resource that replicates our existing Task schema. Update all references to the Task data to instead use AWS Amplify to access your data in DynamoDB instead of in Room. 
+## screenshot
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210909-041304.jpg)
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210909-041313.jpg)
+
+![Add Detail](firstAndroidapplication/app/screenshot/Screenshot_20210909-041320.jpg)
+
+## lab 31
+-  Add Espresso to your application, and use it to test basic functionality of the main components of your application.
+
+## screenshot
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210909-041833.jpg)
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210909-041914.jpg)
+
+
+
 ## lab 29
 -  set up Room in your application, and modify your Task class to be an Entity.
 - Modify your Add Task form to save the data entered in as a Task in your local database.

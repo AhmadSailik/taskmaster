@@ -1,15 +1,20 @@
 package com.example.firstandroidapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
+//import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,16 +23,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    TaskDatabase taskDatabase;
+//    TaskDatabase taskDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
 
     }
 
@@ -40,13 +63,40 @@ public class MainActivity extends AppCompatActivity {
             Intent oneTask =new Intent(MainActivity.this,AddTask29.class);
             startActivity(oneTask);
         });
-        taskDatabase =  Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "taskDatas").allowMainThreadQueries().build();
-        List<Task> allTasks=taskDatabase.taskDao().getAll();
-//        ArrayList<Task> allTasks=new ArrayList<Task>();
+        RecyclerView allTaskRecyclerView=findViewById(R.id.listOfButton);
+        Handler handler = new Handler(Looper.getMainLooper(),
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message msg) {
+                        allTaskRecyclerView.getAdapter().notifyDataSetChanged();
+                        return false;
+                    }
+                });
+        ArrayList<Todo> allTasks=new ArrayList<Todo>();
+        Amplify.API.query(
+                ModelQuery.list(Todo.class),
+
+                response -> {
+                    System.out.println(response+"------------------------------------------------");
+                    for (Todo todo : response.getData()) {
+                        Log.i("MyAmplifyApp", todo.getTitle());
+                        Log.i("MyAmplifyApp", todo.getBody());
+                        Log.i("MyAmplifyApp", todo.getState());
+                        allTasks.add(todo);
+//                        System.out.println(allTasks+"+++++++++++++++++++++++++++++++++++++++");
+                    }
+                    handler.sendEmptyMessage(1);
+                    System.out.println("**********************************************");
+                },
+                error -> Log.e("MyAmplifyApp", "Query failure", error)
+        );
+//        taskDatabase =  Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "taskDatas").allowMainThreadQueries().build();
+//        List<Task> allTasks=taskDatabase.taskDao().getAll();
+
 //        allTasks.add(new Task("jop","still research","in progress"));
 //        allTasks.add(new Task("lab","add All task","complete"));
 //        allTasks.add(new Task("CSS","course CSS","assigned"));
-        RecyclerView allTaskRecyclerView=findViewById(R.id.listOfButton);
+
 //        allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         allTaskRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),3));
         allTaskRecyclerView.setAdapter(new vickAdapter(allTasks));
