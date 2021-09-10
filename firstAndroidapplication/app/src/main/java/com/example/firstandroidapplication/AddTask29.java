@@ -7,11 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
+
+import java.util.ArrayList;
 
 public class AddTask29 extends AppCompatActivity {
 //    TaskDatabase taskDatabase;
@@ -23,15 +28,44 @@ public class AddTask29 extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+//        Team team=Team.builder()
+//                .name("Ahmad")
+//                .build();
+//        Amplify.DataStore.save(team,
+//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
+//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+//        );
+//        Team team1=Team.builder()
+//                .name("Noor")
+//                .build();
+//        Amplify.DataStore.save(team1,
+//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
+//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+//        );
+//        Team team2=Team.builder()
+//                .name("Salah")
+//                .build();
+//        Amplify.DataStore.save(team2,
+//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
+//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+//        );
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-    EditText title=findViewById(R.id.editTextTitile);
+        EditText title=findViewById(R.id.editTextTitile);
         EditText body=findViewById(R.id.editTextBody);
         EditText state=findViewById(R.id.editTextState);
+        Team team=Team.builder()
+                .name("Ahmad")
+                .build();
+        Amplify.DataStore.save(team,
+                saved -> Log.i("MyAmplifyApp", "Saved a post."),
+                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+        );
+
         Button button=findViewById(R.id.submit);
 
         button.setOnClickListener((v)->{
@@ -40,6 +74,7 @@ public class AddTask29 extends AppCompatActivity {
 //            taskDao=taskDatabase.taskDao();
 //            taskDao.isertrAll(task);
             Todo todo = Todo.builder()
+                    .teamId(team.getId())
                     .title(title.getText().toString())
                     .body(body.getText().toString())
                     .state(state.getText().toString())

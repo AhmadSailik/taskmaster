@@ -82,10 +82,10 @@
         android:id="@+id/submit"
         android:layout_width="126dp"
         android:layout_height="57dp"
-        android:layout_marginTop="36dp"
         android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextState" />
+        tools:layout_editor_absoluteY="555dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
