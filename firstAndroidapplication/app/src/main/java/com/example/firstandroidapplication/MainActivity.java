@@ -28,6 +28,7 @@ import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 
 import java.util.ArrayList;
@@ -57,12 +58,47 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+//        Team team=Team.builder()
+//                .name("Ahmad")
+//                .build();
+//        Amplify.DataStore.save(team,
+//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
+//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+//        );
+//
+//        Team team1=Team.builder()
+//                .name("Noor")
+//                .build();
+//        Amplify.DataStore.save(team1,
+//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
+//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+//        );
+//        Team team2=Team.builder()
+//                .name("Salah")
+//                .build();
+//        Amplify.DataStore.save(team2,
+//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
+//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+//        );
+        String welcome="welcome";
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String userName=sharedPreferences.getString("userName","User");
+        String teamName=sharedPreferences.getString("teamName","Team");
+        TextView textView=findViewById(R.id.users);
+        TextView textView1=findViewById(R.id.teamName);
+        textView.setText(welcome+" "+userName);
+        textView1.setText(teamName);
+        Button sitting=findViewById(R.id.sitting);
+        sitting.setOnClickListener((view)->{
+            Intent sittingUser =new Intent(MainActivity.this,SettingsPage.class);
+            startActivity(sittingUser);
+        });
         Button button=findViewById(R.id.newTask);
         button.setOnClickListener((v)->{
             Intent oneTask =new Intent(MainActivity.this,AddTask29.class);
             startActivity(oneTask);
         });
+        String teamId=sharedPreferences.getString("teamId","id");
         RecyclerView allTaskRecyclerView=findViewById(R.id.listOfButton);
         Handler handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -79,11 +115,14 @@ public class MainActivity extends AppCompatActivity {
                 response -> {
                     System.out.println(response+"------------------------------------------------");
                     for (Todo todo : response.getData()) {
-                        Log.i("MyAmplifyApp", todo.getTitle());
-                        Log.i("MyAmplifyApp", todo.getBody());
-                        Log.i("MyAmplifyApp", todo.getState());
-                        allTasks.add(todo);
-//                        System.out.println(allTasks+"+++++++++++++++++++++++++++++++++++++++");
+                        if(todo.getTeamId().equals(teamId)){
+                            Log.i("MyAmplifyApp", todo.getTitle());
+                            Log.i("MyAmplifyApp", todo.getBody());
+                            Log.i("MyAmplifyApp", todo.getState());
+                            allTasks.add(todo);
+                            System.out.println(allTasks+"+++++++++++++++++++++++++++++++++++++++");
+                        }
+
                     }
                     handler.sendEmptyMessage(1);
                     System.out.println("**********************************************");
@@ -123,16 +162,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(oneTask);
         });
 
-        String welcome="welcome";
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String userName=sharedPreferences.getString("userName","User");
-        TextView textView=findViewById(R.id.users);
-        textView.setText(welcome+" "+userName);
-        Button sitting=findViewById(R.id.sitting);
-        sitting.setOnClickListener((view)->{
-            Intent sittingUser =new Intent(MainActivity.this,SettingsPage.class);
-            startActivity(sittingUser);
-        });
+
         Button addTask=findViewById(R.id.button);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override

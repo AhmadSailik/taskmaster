@@ -7,20 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.RadioButton;
 
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
-
-import java.util.ArrayList;
 
 public class AddTask29 extends AppCompatActivity {
 //    TaskDatabase taskDatabase;
 //    TaskDao taskDao;
+private String team ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,27 +25,8 @@ public class AddTask29 extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-//        Team team=Team.builder()
-//                .name("Ahmad")
-//                .build();
-//        Amplify.DataStore.save(team,
-//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
-//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
-//        );
-//        Team team1=Team.builder()
-//                .name("Noor")
-//                .build();
-//        Amplify.DataStore.save(team1,
-//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
-//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
-//        );
-//        Team team2=Team.builder()
-//                .name("Salah")
-//                .build();
-//        Amplify.DataStore.save(team2,
-//                saved -> Log.i("MyAmplifyApp", "Saved a post."),
-//                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
-//        );
+
+
 
     }
 
@@ -58,14 +36,25 @@ public class AddTask29 extends AppCompatActivity {
         EditText title=findViewById(R.id.editTextTitile);
         EditText body=findViewById(R.id.editTextBody);
         EditText state=findViewById(R.id.editTextState);
-        Team team=Team.builder()
-                .name("Ahmad")
-                .build();
-        Amplify.DataStore.save(team,
-                saved -> Log.i("MyAmplifyApp", "Saved a post."),
-                failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
-        );
 
+        RadioButton radioButton =findViewById(R.id.radioButtontask1);
+        radioButton.setText("Ahmad");
+        radioButton.setPrivateImeOptions("733c530c-c007-4269-a2f5-1bd520b45c8d");
+        radioButton.setOnClickListener((v)->{
+            team =radioButton.getPrivateImeOptions();
+        });
+        RadioButton radioButton1 =findViewById(R.id.radioButtontask2);
+        radioButton1.setText("Noor");
+        radioButton1.setPrivateImeOptions("5876219e-ccb7-4ae3-ba05-347501361848");
+        radioButton1.setOnClickListener((v)->{
+            team =radioButton1.getPrivateImeOptions();
+        });
+        RadioButton radioButton2 =findViewById(R.id.radioButtontask3);
+        radioButton2.setText("Salah");
+        radioButton2.setPrivateImeOptions("2703d85a-b943-4366-bff6-926a6aae9927");
+        radioButton2.setOnClickListener((v)->{
+            team =radioButton2.getPrivateImeOptions();
+        });
         Button button=findViewById(R.id.submit);
 
         button.setOnClickListener((v)->{
@@ -74,7 +63,7 @@ public class AddTask29 extends AppCompatActivity {
 //            taskDao=taskDatabase.taskDao();
 //            taskDao.isertrAll(task);
             Todo todo = Todo.builder()
-                    .teamId(team.getId())
+                    .teamId(team)
                     .title(title.getText().toString())
                     .body(body.getText().toString())
                     .state(state.getText().toString())
