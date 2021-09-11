@@ -14,10 +14,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.268"
+        app:layout_constraintHorizontal_bias="0.358"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.348" />
+        app:layout_constraintVertical_bias="0.122" />
 
     <Button
         android:id="@+id/save"
@@ -26,8 +26,41 @@
         android:text="save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editUserName"
-        app:layout_constraintVertical_bias="0.142" />
+        app:layout_constraintVertical_bias="0.358" />
+
+    <RadioButton
+        android:id="@+id/radioButtonsetting1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="68dp"
+        android:text="RadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUserName" />
+
+    <RadioButton
+        android:id="@+id/radioButtonsetting2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="RadioButton"
+        app:layout_constraintBottom_toTopOf="@+id/save"
+        app:layout_constraintEnd_toStartOf="@+id/radioButtonsetting3"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toEndOf="@+id/radioButtonsetting1"
+        app:layout_constraintTop_toBottomOf="@+id/editUserName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RadioButton
+        android:id="@+id/radioButtonsetting3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="16dp"
+        android:text="RadioButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUserName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

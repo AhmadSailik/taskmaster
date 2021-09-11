@@ -1,4 +1,11 @@
-directive @connection(keyName: String, fields: [String!]) on FIELD_DEFINITION
+#directive @connection(keyName: String, fields: [String!]) on FIELD_DEFINITION
+
+type Team @model {
+  id:ID!
+  name:String!
+  todos:[Todo] @connection(keyName: "byTeam", fields: ["id"])
+}
+
 type Todo @model
 @key(name: "byTeam", fields: ["teamID", "title","body","state"]){
   id: ID!
@@ -8,39 +15,35 @@ type Todo @model
   state: String
 }
 
-type Team @model {
-  id:ID!
-  name:String!
-  todos:[Todo] @connection(keyName: "byTeam", fields: ["id"])
-}
-mutation CreateTeam {
-  createTeam(input: { id: "a-team-id", name: "Team Name" } ) {
-    id
-    name
-  }
-}
-mutation CreateTodoOnTeam {
-  createTodo(input: { id: "a-todo-id", title: "A title",body: "A body",state: "A state", teamID: "a-team-id"}) {
-    id
-    title
-    body
-    state
-  }
-}
-query getTeam {
-  getTeam(id: "a-team-id") {
-    id
-    name
-    todos {
-      items {
-        id
-        title
-        body
-        state
-      }
-    }
-  }
-}
+
+#mutation CreateTeam {
+#  createTeam(input: { id: "a-team-id", name: "Team Name" } ) {
+#    id
+#    name
+#  }
+#}
+#mutation CreateTodoOnTeam {
+#  createTodo(input: { id: "a-todo-id", title: "A title",body: "A body",state: "A state", teamID: "a-team-id"}) {
+#    id
+#    title
+#    body
+#    state
+#  }
+#}
+#query getTeam {
+#  getTeam(id: "a-team-id") {
+#    id
+#    name
+#    todos {
+#      items {
+#        id
+#        title
+#        body
+#        state
+#      }
+#    }
+#  }
+#}
 
 
 

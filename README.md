@@ -1,4 +1,12 @@
 # taskmaster
+## lab 33
+- Create a second entity for a team, which has a name and a list of tasks. Update your tasks to be owned by a team.
+## screenshot
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210911-231854.jpg)
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210911-231917.jpg)
+![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210911-231926.jpg)
+![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210911-232000.jpg)
+![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210911-232009.jpg)
 
 ## lab 32
 -  Using the amplify add api command, create a Task resource that replicates our existing Task schema. Update all references to the Task data to instead use AWS Amplify to access your data in DynamoDB instead of in Room. 
