@@ -1,5 +1,7 @@
 package com.example.firstandroidapplication;
 
+import static android.os.SystemClock.sleep;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,13 +26,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.amazonaws.mobileconnectors.cognitoauth.Auth;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthChannelEventName;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.auth.options.AuthSignOutOptions;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.InitializationStatus;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.appsync.AppSync;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
+import com.amplifyframework.hub.HubChannel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +49,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 //    TaskDatabase taskDatabase;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -45,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
@@ -52,12 +65,98 @@ public class MainActivity extends AppCompatActivity {
 
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+        Amplify.Auth.signInWithWebUI(
+
+                this,
+                result -> Log.i("AuthQuickStart", result.toString()),
+                error -> Log.e("AuthQuickStart", error.toString())
+        );
+
+//        AuthSignUpOptions options = AuthSignUpOptions.builder()
+//                .userAttribute(AuthUserAttributeKey.email(), "asailik1993@gmail.com")
+//                .build();
+//        Amplify.Auth.signUp("ahmadSailik", "123456", options,
+//                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+//                error -> Log.e("AuthQuickStart", "Sign up failed", error)
+//        );
+//        Amplify.Auth.confirmSignUp(
+//                "ahmadSailik",
+//                "23456",
+//                result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+//                error -> Log.e("AuthQuickstart", error.toString())
+//        );
+//        Amplify.Auth.signIn(
+//                "ahmadSailik",
+//                "123456",
+//                result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+//                error -> Log.e("AuthQuickstart", error.toString())
+//        );
+//        Button singOut=findViewById(R.id.signOut);
+//        singOut.setOnClickListener((v)->{
+//            Intent signOut =new Intent(Intent.ACTION_VIEW, Uri.parse("myapp://signout/"));
+//            startActivity(signOut);
+//        });
+        Button singOut=findViewById(R.id.signOut);
+        singOut.setOnClickListener((v)->{
+
+            Amplify.Auth.signOut (
+                    
+                    () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                    error -> Log.e("AuthQuickstart", error.toString())
+
+            );
+
+//            Intent intent=new Intent(MainActivity.this,SettingsPage.class);
+//            startActivity(intent);
+        });
+
+
+        Amplify.Auth.fetchAuthSession(
+                result -> Log.i("AmplifyQuickstart", result.toString()),
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP-----------------");
+        Amplify.Hub.subscribe(HubChannel.AUTH,
+                hubEvent -> {
+                    System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP+++++++++++++++++");
+                    if (hubEvent.getName().equals(InitializationStatus.SUCCEEDED.toString())) {
+                        Log.i("AuthQuickstart", "Auth successfully initialized");
+                    } else if (hubEvent.getName().equals(InitializationStatus.FAILED.toString())){
+                        Log.i("AuthQuickstart", "Auth failed to succeed");
+                    } else {
+                        switch (AuthChannelEventName.valueOf(hubEvent.getName())) {
+                            case SIGNED_IN:
+                                Log.i("AuthQuickstart", "Auth just became signed in.");
+                                break;
+                            case SIGNED_OUT:
+                                Log.i("AuthQuickstart", "Auth just became signed out.");
+                                break;
+                            case SESSION_EXPIRED:
+                                Log.i("AuthQuickstart", "Auth session just expired.");
+                                break;
+                            default:
+                                Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(hubEvent.getName()));
+                                break;
+                        }
+                    }
+                    System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPP+++++++++++++++++");
+                }
+
+        );
+        Amplify.Auth.fetchUserAttributes(
+                attributes -> Log.i("AuthDemo", "User attributes = " + attributes.toString()),
+                error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
+
+        );
+
+        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP-----------------");
+//
 //        Team team=Team.builder()
 //                .name("Ahmad")
 //                .build();
