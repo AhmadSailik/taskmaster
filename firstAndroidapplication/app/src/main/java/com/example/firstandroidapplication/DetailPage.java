@@ -1,8 +1,12 @@
 package com.example.firstandroidapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.utils.widget.MockView;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,6 +30,7 @@ public class DetailPage extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart();
@@ -37,6 +42,7 @@ public class DetailPage extends AppCompatActivity {
         TextView textViews1=findViewById(R.id.textTitle);
         TextView textViews2=findViewById(R.id.textBody);
         TextView textViews3=findViewById(R.id.textState);
+
         ImageView imageView=findViewById(R.id.imageload);
         textViews.setText(title);
         textViews1.setText(title);
@@ -49,8 +55,8 @@ public class DetailPage extends AppCompatActivity {
                 new File(getApplicationContext().getFilesDir() + "/download.jpg"),
                 result -> {
                     Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
-                    URI uri=result.getFile().toURL();
-                    imageView.set
+
+                    imageView.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
                 },
                 error -> Log.e("MyAmplifyApp",  "Download Failure", error)
         );
