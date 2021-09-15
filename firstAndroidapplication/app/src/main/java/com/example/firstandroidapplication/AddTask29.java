@@ -1,10 +1,13 @@
 package com.example.firstandroidapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.room.Room;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -14,9 +17,19 @@ import android.widget.RadioButton;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Todo;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class AddTask29 extends AppCompatActivity {
 //    TaskDatabase taskDatabase;
 //    TaskDao taskDao;
+//File exampleFile;
+private EditText title;
 private String team ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +37,29 @@ private String team ;
         setContentView(R.layout.activity_add_task29);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        title=findViewById(R.id.editTextTitile);
 
 
 
     }
 
+
+
     @Override
     protected void onStart() {
         super.onStart();
-        EditText title=findViewById(R.id.editTextTitile);
+
         EditText body=findViewById(R.id.editTextBody);
         EditText state=findViewById(R.id.editTextState);
+
+
+        Button addImage=findViewById(R.id.addImage);
+        addImage.setOnClickListener((v)->{
+            Intent chooseFile=new Intent(Intent.ACTION_GET_CONTENT);
+            chooseFile.setType("*/*");
+            chooseFile=Intent.createChooser(chooseFile,"Choose a file");
+            startActivityForResult(chooseFile,1234);
+        });
 
         RadioButton radioButton =findViewById(R.id.radioButtontask1);
         radioButton.setText("Ahmad");
@@ -62,6 +86,12 @@ private String team ;
 //            taskDatabase =  Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "taskDatas").allowMainThreadQueries().build();
 //            taskDao=taskDatabase.taskDao();
 //            taskDao.isertrAll(task);
+//            private void uploadFile() {
+//            onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+
+
+
+//            }
             Todo todo = Todo.builder()
                     .teamId(team)
                     .title(title.getText().toString())
@@ -74,8 +104,36 @@ private String team ;
                     failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
             );
             Intent goToMain=new Intent(AddTask29.this,MainActivity.class);
+            goToMain.putExtra("imageName",title.getText().toString());
             startActivity(goToMain);
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String key=title.getText().toString();
+        File exampleFile = new File(getApplicationContext().getFilesDir(), "title");
+        try {
+            InputStream inputStream=getContentResolver().openInputStream(data.getData());
+            OutputStream outputStream=new FileOutputStream(exampleFile);
+            byte[]buf=new byte[1024];
+            int len;
+            while ((len=inputStream.read(buf))>0){
+                outputStream.write(buf,0,len);
+            }
+            inputStream.close();
+            outputStream.close();
+
+        } catch (Exception exception) {
+            Log.e("MyAmplifyApp", "Upload failed", exception);
+        }
+
+        Amplify.Storage.uploadFile(
+                key,
+                exampleFile,
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+        );
     }
     public boolean onOptionsItemSelected(MenuItem item){
         Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
