@@ -76,13 +76,7 @@ public class MainActivity extends AppCompatActivity {
         Amplify.Auth.signInWithWebUI(
 
                 this,
-                result -> {
-                    Log.i("AuthQuickStart", result.toString());
-                    TextView textView=findViewById(R.id.users);
-                    String welcome="welcome";
-//                    String userName=Amplify.Auth.getCurrentUser().getUsername();
-                    textView.setText(welcome+" "+"userName");
-                },
+                result -> Log.i("AuthQuickStart", result.toString()),
                 error -> Log.e("AuthQuickStart", error.toString())
         );
 
@@ -117,15 +111,16 @@ public class MainActivity extends AppCompatActivity {
 
                     () ->{
                         Log.i("AuthQuickstart", "Signed out successfully");
-                        System.out.println("///////////////");
                         System.out.println(Log.i("AuthQuickstart", "Signed out successfully"));
                         finish();
-                        Amplify.Auth.signInWithWebUI(
 
-                                this,
-                                result -> Log.i("AuthQuickStart", result.toString()),
-                                error -> Log.e("AuthQuickStart", error.toString())
-                        );
+//                        Amplify.Auth.signInWithWebUI(
+//
+//                                this,
+//                                result -> Log.i("AuthQuickStart", result.toString()),
+//                                error -> Log.e("AuthQuickStart", error.toString())
+//                        );
+
                     } ,
                     error -> Log.e("AuthQuickstart", error.toString())
 
@@ -138,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
         Amplify.Auth.fetchAuthSession(
                 result ->{
                     Log.i("AmplifyQuickstart", result.toString());
+                    if(result.isSignedIn()){
+                        TextView textView=findViewById(R.id.users);
+                        String welcome="welcome";
+                        String userName=Amplify.Auth.getCurrentUser().getUsername();
+                        textView.setText(welcome+" "+userName);
+                    }
+
                 },
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
 
 //
 //        Team team=Team.builder()

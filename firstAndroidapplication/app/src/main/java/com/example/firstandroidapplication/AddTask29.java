@@ -51,18 +51,14 @@ private String team ;
 
         EditText body=findViewById(R.id.editTextBody);
         EditText state=findViewById(R.id.editTextState);
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(AddTask29.this);
-        SharedPreferences.Editor sharedPreferencesEditor=sharedPreferences.edit();
-        sharedPreferencesEditor.putString("imageName",title.getText().toString());
-        sharedPreferencesEditor.apply();
+
+
         Button addImage=findViewById(R.id.addImage);
         addImage.setOnClickListener((v)->{
             Intent chooseFile=new Intent(Intent.ACTION_GET_CONTENT);
             chooseFile.setType("*/*");
             chooseFile=Intent.createChooser(chooseFile,"Choose a file");
             startActivityForResult(chooseFile,1234);
-
-
         });
 
         RadioButton radioButton =findViewById(R.id.radioButtontask1);
@@ -115,14 +111,7 @@ private String team ;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Intent intent=getIntent();
-//        String title=intent.getExtras().getString("imageName","title");
-//        exampleFile=new File(getApplicationContext().getFilesDir(),"copied");
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(AddTask29.this);
-//        SharedPreferences.Editor sharedPreferencesEditor=sharedPreferences.edit();
-//        String key=sharedPreferences.getString("imageName","Team");
         String key=title.getText().toString();
-        System.out.println(key+"'ttttttttttttttttttttwwwwww222222222222222");
         File exampleFile = new File(getApplicationContext().getFilesDir(), "title");
         try {
             InputStream inputStream=getContentResolver().openInputStream(data.getData());

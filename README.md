@@ -1,4 +1,19 @@
 # taskmaster
+## lab 37
+- allow users to optionally select a file to attach to that task.
+## screenshot
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210915-024850.jpg)
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210915-025047.jpg)
+
+
+
+## lab 36
+-  Add in user login and sign up flows to your application, using Cognito’
+## screenshot
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210915-024533.jpg)
+![home page](firstAndroidapplication/app/screenshot/Screenshot_20210915-024544.jpg)
+![Detail Page](firstAndroidapplication/app/screenshot/Screenshot_20210915-024757.jpg)
+
 ## lab 33
 - Create a second entity for a team, which has a name and a list of tasks. Update your tasks to be owned by a team.
 ## screenshot
