@@ -1,4 +1,9 @@
 # taskmaster
+## lab 38
+- Use SNS to send a notification as part of that Lambda
+## screenshot
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210918-173637.jpg)
+
 ## lab 37
 - allow users to optionally select a file to attach to that task.
 ## screenshot
