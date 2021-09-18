@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 //import androidx.room.Room;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -27,7 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
+import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.cognitoauth.Auth;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -44,6 +51,9 @@ import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 import com.amplifyframework.hub.HubChannel;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,6 +63,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getSimpleName();
+
+    private static PinpointManager pinpointManager;
+
+    public static PinpointManager getPinpointManager(final Context applicationContext) {
+        if (pinpointManager == null) {
+            final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+            AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+                @Override
+                public void onResult(UserStateDetails userStateDetails) {
+                    Log.i("INIT", userStateDetails.getUserState().toString());
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("INIT", "Initialization error.", e);
+                }
+            });
+
+            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
+                    applicationContext,
+                    AWSMobileClient.getInstance(),
+                    awsConfig);
+
+            pinpointManager = new PinpointManager(pinpointConfig);
+
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+                            final String token = task.getResult();
+                            Log.d(TAG, "Registering push notifications token: " + token);
+                            pinpointManager.getNotificationClient().registerDeviceToken(token);
+                        }
+                    });
+        }
+        return pinpointManager;
+    }
 //    TaskDatabase taskDatabase;
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
@@ -66,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
+            getPinpointManager(getApplicationContext());
 
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
