@@ -9,7 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApplication">
-        <activity android:name=".AddTask29"></activity>
+        <activity android:name=".AddTask29">
+            <intent-filter android:label="add to task">
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingsPage" />
         <activity android:name=".DetailPage" />
         <activity android:name=".AllTask" />

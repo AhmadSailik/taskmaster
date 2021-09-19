@@ -48,9 +48,14 @@ private String team ;
     @Override
     protected void onStart() {
         super.onStart();
-
         EditText body=findViewById(R.id.editTextBody);
         EditText state=findViewById(R.id.editTextState);
+        Intent recieve=getIntent();
+        if(recieve.getType()!=null&&recieve.getType().equals("text/plain")){
+            System.out.println("$$$$$$$$$$$$$$$$$$$"+recieve.getExtras().get(Intent.EXTRA_TEXT).toString());
+            body.setText(recieve.getExtras().get(Intent.EXTRA_TEXT).toString());
+        }
+
 
 
         Button addImage=findViewById(R.id.addImage);
