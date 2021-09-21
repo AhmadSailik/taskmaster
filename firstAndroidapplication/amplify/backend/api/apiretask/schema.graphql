@@ -7,12 +7,14 @@ type Team @model {
 }
 
 type Todo @model
-@key(name: "byTeam", fields: ["teamID", "title","body","state"]){
+@key(name: "byTeam", fields: ["teamID", "title","body","state","longitude","latitude"]){
   id: ID!
   teamID:ID!
   title: String!
   body: String!
   state: String
+  longitude: String!
+  latitude: String!
 }
 
 

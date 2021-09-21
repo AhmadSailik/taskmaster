@@ -1,4 +1,13 @@
 # taskmaster
+## lab 41
+- allow users to share text content from another application, and have that automatically populated on the Add a Task activity.
+## screenshot
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210919-160944.jpg)
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210919-161024.jpg)
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210919-161031.jpg)
+![all task](firstAndroidapplication/app/screenshot/Screenshot_20210919-161045.jpg)
+
+
 ## lab 38
 - Use SNS to send a notification as part of that Lambda
 ## screenshot

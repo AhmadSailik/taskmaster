@@ -19,18 +19,22 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Todos")
-@Index(name = "byTeam", fields = {"teamID","title","body","state"})
+@Index(name = "byTeam", fields = {"teamID","title","body","state","longitude","latitude"})
 public final class Todo implements Model {
   public static final QueryField ID = field("Todo", "id");
   public static final QueryField TEAM_ID = field("Todo", "teamID");
   public static final QueryField TITLE = field("Todo", "title");
   public static final QueryField BODY = field("Todo", "body");
   public static final QueryField STATE = field("Todo", "state");
+  public static final QueryField LONGITUDE = field("Todo", "longitude");
+  public static final QueryField LATITUDE = field("Todo", "latitude");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="ID", isRequired = true) String teamID;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String", isRequired = true) String body;
   private final @ModelField(targetType="String") String state;
+  private final @ModelField(targetType="String", isRequired = true) String longitude;
+  private final @ModelField(targetType="String", isRequired = true) String latitude;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -53,6 +57,14 @@ public final class Todo implements Model {
       return state;
   }
   
+  public String getLongitude() {
+      return longitude;
+  }
+  
+  public String getLatitude() {
+      return latitude;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -61,12 +73,14 @@ public final class Todo implements Model {
       return updatedAt;
   }
   
-  private Todo(String id, String teamID, String title, String body, String state) {
+  private Todo(String id, String teamID, String title, String body, String state, String longitude, String latitude) {
     this.id = id;
     this.teamID = teamID;
     this.title = title;
     this.body = body;
     this.state = state;
+    this.longitude = longitude;
+    this.latitude = latitude;
   }
   
   @Override
@@ -82,6 +96,8 @@ public final class Todo implements Model {
               ObjectsCompat.equals(getTitle(), todo.getTitle()) &&
               ObjectsCompat.equals(getBody(), todo.getBody()) &&
               ObjectsCompat.equals(getState(), todo.getState()) &&
+              ObjectsCompat.equals(getLongitude(), todo.getLongitude()) &&
+              ObjectsCompat.equals(getLatitude(), todo.getLatitude()) &&
               ObjectsCompat.equals(getCreatedAt(), todo.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
       }
@@ -95,6 +111,8 @@ public final class Todo implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getState())
+      .append(getLongitude())
+      .append(getLatitude())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -110,6 +128,8 @@ public final class Todo implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
+      .append("longitude=" + String.valueOf(getLongitude()) + ", ")
+      .append("latitude=" + String.valueOf(getLatitude()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -144,6 +164,8 @@ public final class Todo implements Model {
       null,
       null,
       null,
+      null,
+      null,
       null
     );
   }
@@ -153,7 +175,9 @@ public final class Todo implements Model {
       teamID,
       title,
       body,
-      state);
+      state,
+      longitude,
+      latitude);
   }
   public interface TeamIdStep {
     TitleStep teamId(String teamId);
@@ -166,7 +190,17 @@ public final class Todo implements Model {
   
 
   public interface BodyStep {
-    BuildStep body(String body);
+    LongitudeStep body(String body);
+  }
+  
+
+  public interface LongitudeStep {
+    LatitudeStep longitude(String longitude);
+  }
+  
+
+  public interface LatitudeStep {
+    BuildStep latitude(String latitude);
   }
   
 
@@ -177,11 +211,13 @@ public final class Todo implements Model {
   }
   
 
-  public static class Builder implements TeamIdStep, TitleStep, BodyStep, BuildStep {
+  public static class Builder implements TeamIdStep, TitleStep, BodyStep, LongitudeStep, LatitudeStep, BuildStep {
     private String id;
     private String teamID;
     private String title;
     private String body;
+    private String longitude;
+    private String latitude;
     private String state;
     @Override
      public Todo build() {
@@ -192,7 +228,9 @@ public final class Todo implements Model {
           teamID,
           title,
           body,
-          state);
+          state,
+          longitude,
+          latitude);
     }
     
     @Override
@@ -210,9 +248,23 @@ public final class Todo implements Model {
     }
     
     @Override
-     public BuildStep body(String body) {
+     public LongitudeStep body(String body) {
         Objects.requireNonNull(body);
         this.body = body;
+        return this;
+    }
+    
+    @Override
+     public LatitudeStep longitude(String longitude) {
+        Objects.requireNonNull(longitude);
+        this.longitude = longitude;
+        return this;
+    }
+    
+    @Override
+     public BuildStep latitude(String latitude) {
+        Objects.requireNonNull(latitude);
+        this.latitude = latitude;
         return this;
     }
     
@@ -234,11 +286,13 @@ public final class Todo implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String teamId, String title, String body, String state) {
+    private CopyOfBuilder(String id, String teamId, String title, String body, String state, String longitude, String latitude) {
       super.id(id);
       super.teamId(teamId)
         .title(title)
         .body(body)
+        .longitude(longitude)
+        .latitude(latitude)
         .state(state);
     }
     
@@ -255,6 +309,16 @@ public final class Todo implements Model {
     @Override
      public CopyOfBuilder body(String body) {
       return (CopyOfBuilder) super.body(body);
+    }
+    
+    @Override
+     public CopyOfBuilder longitude(String longitude) {
+      return (CopyOfBuilder) super.longitude(longitude);
+    }
+    
+    @Override
+     public CopyOfBuilder latitude(String latitude) {
+      return (CopyOfBuilder) super.latitude(latitude);
     }
     
     @Override

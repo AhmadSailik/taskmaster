@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.firstandroidapplication">
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstAndroidApplication">
-        <activity android:name=".AddTask29"></activity>
+        <activity android:name=".AddTask29">
+            <intent-filter android:label="add to task">
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingsPage" />
         <activity android:name=".DetailPage" />
         <activity android:name=".AllTask" />
@@ -32,11 +40,19 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".PushListenerService">
+            android:name=".PushListenerService"
+
+            >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
+<!--            <intent-filter android:foregroundServiceType="location">-->
+<!--                <action android:name="MyNavigationService"/>-->
+<!--            </intent-filter>-->
+<!--            android:name="MyNavigationService"-->
+<!--            android:foregroundServiceType="location" ...-->
         </service>
+
     </application>
 
 </manifest>
