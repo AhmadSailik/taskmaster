@@ -60,6 +60,8 @@ public class vickAdapter extends RecyclerView.Adapter<vickAdapter.TaskViewHolder
             oneTask.putExtra("title",holder.task.getTitle());
             oneTask.putExtra("body",holder.task.getBody());
             oneTask.putExtra("state",holder.task.getState());
+            oneTask.putExtra("lat",holder.task.getLatitude());
+            oneTask.putExtra("lon",holder.task.getLongitude());
             holder.context.startActivity(oneTask);
         });
 //        TextView title=holder.itemView.findViewById(R.id.textView2);

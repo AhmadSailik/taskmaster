@@ -5,14 +5,18 @@ import static android.os.SystemClock.sleep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 //import androidx.room.Room;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,7 +55,10 @@ import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 import com.amplifyframework.hub.HubChannel;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -64,7 +71,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
-
     private static PinpointManager pinpointManager;
 
     public static PinpointManager getPinpointManager(final Context applicationContext) {
@@ -105,12 +111,40 @@ public class MainActivity extends AppCompatActivity {
         }
         return pinpointManager;
     }
-//    TaskDatabase taskDatabase;
+
+    //    TaskDatabase taskDatabase;
+
     @Override
-    protected  void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            System.out.println("{{{{{{{{{{{{{{{{{{{{{{{{{{");
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//
+////               public void onRequestPermissionsResult(int requestCode, String[] permissions,
+////                                                      int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+
+//        fusedLocationClient.getLastLocation()
+//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                    @Override
+//                    public void onSuccess(Location location) {
+//                        System.out.println("))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
+//                        // Got last known location. In some rare situations this can be null.
+//                        if (location != null) {
+//                            System.out.println(location+"))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
+//                            // Logic to handle location object
+//                        }
+//                    }
+//                });
         try {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
@@ -272,6 +306,8 @@ public class MainActivity extends AppCompatActivity {
                             Log.i("MyAmplifyApp", todo.getTitle());
                             Log.i("MyAmplifyApp", todo.getBody());
                             Log.i("MyAmplifyApp", todo.getState());
+                            Log.i("MyAmplifyApp", todo.getLatitude());
+                            Log.i("MyAmplifyApp", todo.getLongitude());
                             allTasks.add(todo);
                             System.out.println(allTasks+"+++++++++++++++++++++++++++++++++++++++");
                         }

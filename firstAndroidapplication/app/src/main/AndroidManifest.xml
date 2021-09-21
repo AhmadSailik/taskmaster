@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.firstandroidapplication">
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -38,11 +40,19 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".PushListenerService">
+            android:name=".PushListenerService"
+
+            >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
+<!--            <intent-filter android:foregroundServiceType="location">-->
+<!--                <action android:name="MyNavigationService"/>-->
+<!--            </intent-filter>-->
+<!--            android:name="MyNavigationService"-->
+<!--            android:foregroundServiceType="location" ...-->
         </service>
+
     </application>
 
 </manifest>

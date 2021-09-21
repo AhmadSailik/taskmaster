@@ -38,16 +38,23 @@ public class DetailPage extends AppCompatActivity {
         String title=intent.getExtras().getString("title","title");
         String body=intent.getExtras().getString("body","body");
         String state=intent.getExtras().getString("state","state");
+        String lat=intent.getExtras().getString("lat","lat");
+        String lon=intent.getExtras().getString("lon","lon");
+        System.out.println(lat+";;;;;;;;;;;////////////....................mmmmmmmmmmmmmmmmmmmm");
         TextView textViews=findViewById(R.id.titleOfDetails);
         TextView textViews1=findViewById(R.id.textTitle);
         TextView textViews2=findViewById(R.id.textBody);
         TextView textViews3=findViewById(R.id.textState);
+        TextView textView4=findViewById(R.id.showLat);
+        TextView textView5=findViewById(R.id.showLong);
 
         ImageView imageView=findViewById(R.id.imageload);
         textViews.setText(title);
         textViews1.setText(title);
         textViews2.setText(body);
         textViews3.setText(state);
+        textView4.setText(lat);
+        textView5.setText(lon);
         TextView textView=findViewById(R.id.LoremIpsum);
         textView.setText("Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque aut molestiae rem, non beatae modi veritatis ea nulla voluptatibus illum reiciendis amet quae! Pariatur, praesentium perspiciatis totam mollitia reprehenderit vitae.");
         Amplify.Storage.downloadFile(
